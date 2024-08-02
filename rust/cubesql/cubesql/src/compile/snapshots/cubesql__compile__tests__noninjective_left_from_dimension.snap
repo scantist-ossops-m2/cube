@@ -1,0 +1,13 @@
+---
+source: cubesql/src/compile/mod.rs
+expression: logical_plan
+---
+Projection: #left(MultiTypeCube.dim_str0,Int64(2))
+  Aggregate: groupBy=[[left(#MultiTypeCube.dim_str0, Int64(2))]], aggr=[[]]
+    CubeScan: request={
+  "measures": [],
+  "dimensions": [
+    "MultiTypeCube.dim_str0"
+  ],
+  "segments": []
+}

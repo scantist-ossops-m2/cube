@@ -17294,6 +17294,44 @@ ORDER BY "source"."str0" ASC
     }
 
     #[tokio::test]
+    async fn test_noninjective_call_dimension() {
+        if !Rewriter::sql_push_down_enabled() {
+            return;
+        }
+        init_testing_logger();
+
+        let exprs = [
+            ("coalesce", "COALESCE(dim_str0, '(none)')"),
+            ("nullif", "NULLIF(dim_str0, '(none)')"),
+            ("left", "LEFT(dim_str0, 2)"),
+            ("right", "RIGHT(dim_str0, 2)"),
+        ];
+
+        for (name, expr) in exprs {
+            let logical_plan = convert_select_to_query_plan(
+                // language=PostgreSQL
+                format!(
+                    r#"
+                    SELECT {expr}
+                    FROM MultiTypeCube
+                    GROUP BY 1
+                "#
+                ),
+                DatabaseProtocol::PostgreSQL,
+            )
+            .await
+            .as_logical_plan();
+
+            // Expect this plan to contain Aggregate(CubeScan) to re-aggreagte after non-injective function
+            // Projection(CubeScan) is wrong here
+            insta::assert_debug_snapshot!(
+                format!("noninjective_{name}_from_dimension"),
+                logical_plan
+            );
+        }
+    }
+
+    #[tokio::test]
     async fn test_wrapper_tableau_sunday_week() {
         if !Rewriter::sql_push_down_enabled() {
             return;

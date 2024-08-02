@@ -1,0 +1,13 @@
+---
+source: cubesql/src/compile/mod.rs
+expression: logical_plan
+---
+Projection: #nullif(MultiTypeCube.dim_str0,Utf8("(none)"))
+  Aggregate: groupBy=[[nullif(#MultiTypeCube.dim_str0, Utf8("(none)"))]], aggr=[[]]
+    CubeScan: request={
+  "measures": [],
+  "dimensions": [
+    "MultiTypeCube.dim_str0"
+  ],
+  "segments": []
+}
