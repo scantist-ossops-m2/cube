@@ -3,7 +3,7 @@ source: cubesql/src/compile/mod.rs
 expression: logical_plan
 ---
 Projection: #right(MultiTypeCube.dim_str0,Int64(2))
-  Aggregate: groupBy=[[right(#MultiTypeCube.dim_str0, Int64(2))]], aggr=[[]]
+  Aggregate: groupBy=[[right(#MultiTypeCube.dim_str0, #MultiTypeCube.Int64(2) AS Int64(2))]], aggr=[[]]
     CubeScan: request={
   "measures": [],
   "dimensions": [

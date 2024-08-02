@@ -3,7 +3,7 @@ source: cubesql/src/compile/mod.rs
 expression: logical_plan
 ---
 Projection: #coalesce(MultiTypeCube.dim_str0,Utf8("(none)"))
-  Aggregate: groupBy=[[coalesce(#MultiTypeCube.dim_str0, Utf8("(none)"))]], aggr=[[]]
+  Aggregate: groupBy=[[coalesce(#MultiTypeCube.dim_str0, #MultiTypeCube.Utf8("(none)") AS Utf8("(none)"))]], aggr=[[]]
     CubeScan: request={
   "measures": [],
   "dimensions": [
